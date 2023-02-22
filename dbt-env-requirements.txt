@@ -1,0 +1,4 @@
+# Data Tools
+dbt-core==1.4.1
+dbt-bigquery==1.4.1
+astronomer-cosmos[dbt.bigquery]==0.4.2
