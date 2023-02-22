@@ -6,24 +6,20 @@ RUN python -m virtualenv dbt_venv
 USER root
 RUN sed -i 's/false/true/g' dbt_venv/pyvenv.cfg
 
-USER airflow
+# Preparing airflow scripts
+COPY scripts/entrypoint.sh /custom-entrypoint.sh
+COPY dbt-env-requirements.txt /opt/airflow/dbt-env-requirements.txt
+RUN chown -R 50000:0 /opt && \
+    chmod 755 /custom-entrypoint.sh
+
+# Airflow Env Setup
+USER 50000
+ENV PATH="/opt/airflow/dags:${PATH}"
+ENV PYTHONPATH="/opt/airflow/dags:${PYTHONPATH}"
+
 RUN source dbt_venv/bin/activate && \
-    pip install \
-        dbt-core \
-        dbt-bigquery \
-        astronomer-cosmos[dbt.bigquery] && \
+    pip install -r /opt/airflow/dbt-env-requirements.txt && \
     deactivate
 
-
-EXPOSE 8080
-
-WORKDIR /opt/airflow
-
-COPY dbt/ dbt/
-COPY dags/ dags/
-
-COPY ./init.sh .
-
-# RUN chmod +x init.sh
-
-ENTRYPOINT ["bash", "init.sh" ]
+ENTRYPOINT [ "/custom-entrypoint.sh" ]
+CMD []
