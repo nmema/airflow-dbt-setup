@@ -1,0 +1,9 @@
+selectors:
+  - name: trackers
+    description: Contains every model with "example" tag
+    definition:
+      union:
+        - intersection:
+          - method: tag
+            value: example
+            indirect_selection: cautious

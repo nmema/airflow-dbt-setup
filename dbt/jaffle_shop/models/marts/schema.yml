@@ -1,0 +1,9 @@
+---
+version: 2
+
+models:
+  - name: fct_test
+    description: Sample table for testing
+    tests:
+      - count:
+          compare_model: ref('stg_test')

@@ -1,0 +1,6 @@
+---
+version: 2
+
+models:
+  - name: stg_test
+    description: Sample table for testing
