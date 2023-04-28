@@ -20,7 +20,7 @@ with DAG(
         dbt_args={
             "schema": "public",
             "dbt_executable_path": "/home/airflow/.local/bin/dbt",
-            # "selector": 'test',
+            # "selector": 'selector-example',
         },
         test_behavior="after_each",
         select={"configs": ["tags:example"]},
