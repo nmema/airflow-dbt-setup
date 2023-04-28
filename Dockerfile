@@ -1,4 +1,4 @@
-FROM apache/airflow:2.5.1
+FROM apache/airflow:2.5.3
 
 RUN python -m virtualenv dbt_venv
 
@@ -9,11 +9,11 @@ RUN sed -i 's/false/true/g' dbt_venv/pyvenv.cfg
 # Preparing airflow scripts
 COPY scripts/entrypoint.sh /custom-entrypoint.sh
 COPY dbt-env-requirements.txt /opt/airflow/dbt-env-requirements.txt
-RUN chown -R 50000:0 /opt && \
+RUN chown -R airflow:0 /opt && \
     chmod 755 /custom-entrypoint.sh
 
 # Airflow Env Setup
-USER 50000
+USER airflow
 ENV PATH="/opt/airflow/dags:${PATH}"
 ENV PYTHONPATH="/opt/airflow/dags:${PYTHONPATH}"
 
